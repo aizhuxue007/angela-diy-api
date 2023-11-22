@@ -13,6 +13,7 @@ app.get('/random', (req, res) => {
   res.json(jokes[randomIndex]);
 })
 
+
 //3. GET a jokes by filtering on the joke type
 app.get('/filter', (req, res) => {
   const type = req.query.type;
@@ -27,11 +28,18 @@ app.get('/:id', (req, res) => {
   res.json(foundJoke);
 })
 
-
-
-
-
 //4. POST a new joke
+app.post('/jokes', (req, res) => {
+  if (Object.entries(req.body).length === 0) res.send('empty object');
+  
+  const newJoke = {
+    id: jokes.length + 1,
+    jokeText: req.body.text,
+    jokeType: req.body.type
+  }
+  jokes.push(newJoke)
+  res.json(jokes[jokes.length - 1]);
+})
 
 //5. PUT a joke
 
