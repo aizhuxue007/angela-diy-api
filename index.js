@@ -68,9 +68,25 @@ app.patch('/jokes/:id', (req, res) => {
   res.json(jokes[searchIndex]);
 });
 
-//7. DELETE Specific joke
-
 //8. DELETE All jokes
+app.delete('/jokes/all', (req, res) => {
+  console.log(req.query.key)
+  if (req.query.key === masterKey) { 
+    jokes = null;
+    res.sendStatus(200) 
+  } else {
+    res.sendStatus(400)
+  }
+  
+});
+
+//7. DELETE Specific joke
+app.delete('/jokes/:id', (req, res) => {
+  const jokeIndex = jokes.findIndex(joke => joke.id === Number(req.params.id))
+  delete jokes[jokeIndex];
+  res.status(200).send(`ok ${jokes[jokeIndex]}`)
+});
+
 
 app.listen(port, () => {
   console.log(`Successfully started server on port ${port}.`);
